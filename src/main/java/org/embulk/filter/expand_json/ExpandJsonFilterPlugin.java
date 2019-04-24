@@ -1,6 +1,8 @@
 package org.embulk.filter.expand_json;
 
 import com.google.common.collect.ImmutableList;
+import com.jayway.jsonpath.spi.cache.CacheProvider;
+import com.jayway.jsonpath.spi.cache.NOOPCache;
 import org.embulk.config.Config;
 import org.embulk.config.ConfigDefault;
 import org.embulk.config.ConfigException;
@@ -53,6 +55,7 @@ public class ExpandJsonFilterPlugin
     public void transaction(ConfigSource config, Schema inputSchema,
             FilterPlugin.Control control)
     {
+        CacheProvider.setCache(new NOOPCache());
         // check if deprecated 'time_zone' option is used.
         if (config.has("time_zone")) {
             throw new ConfigException("'time_zone' option will be deprecated");
